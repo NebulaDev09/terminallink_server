@@ -2,6 +2,9 @@
 
 import asyncio
 import json
+import os
+
+PORT = int(os.getenv('PORT', 6767))
 
 clients = set() #list of all clients conected to server
 rooms = {}  #dictionary with room names as the key and all users in a list
@@ -103,7 +106,7 @@ async def sendRoomList(writer): #send room list to client
 
 
 async def main():
-    server = await asyncio.start_server(handle_clients, '192.168.29.153', 6767)
+    server = await asyncio.start_server(handle_clients, '0.0.0.0', 6767)
     async with server:
         await server.serve_forever()
 

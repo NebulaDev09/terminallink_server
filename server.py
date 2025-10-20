@@ -58,26 +58,26 @@ async def handle_clients(reader, writer):
         #remove clients when they disconnect
         if writer in clients:
             clients.remove(writer)
-        room = writer_to_room.pop(writer)
-        if room:
-            if writer in rooms.get(room, []):
-                rooms[room].remove(writer)
-            #notify other clients in the room
-            notify = {'type': 'system', 'event': 'disconnected', 'username': ''}
-            for client in list(rooms.get(room, [])):
-                try:
-                    client.write((json.dumps(notify) + '\n').encode())
-                    await client.drain()
-                except Exception:
-                    if client in clients:
-                        clients.remove(client)
-                    if client in rooms.get(room, []):
-                        rooms[room].remove(client)
-        try:
-            writer.close()
-            await writer.wait_closed()
-        except Exception:
-            pass
+        # room = writer_to_room.pop(writer)
+        # if room:
+        #     if writer in rooms.get(room, []):
+        #         rooms[room].remove(writer)
+        #     #notify other clients in the room
+        #     notify = {'type': 'system', 'event': 'disconnected', 'username': ''}
+        #     for client in list(rooms.get(room, [])):
+        #         try:
+        #             client.write((json.dumps(notify) + '\n').encode())
+        #             await client.drain()
+        #         except Exception:
+        #             if client in clients:
+        #                 clients.remove(client)
+        #             if client in rooms.get(room, []):
+        #                 rooms[room].remove(client)
+        # try:
+        #     writer.close()
+        #     await writer.wait_closed()
+        # except Exception:
+        #     pass
 
 
 async def sendMessages(message, sender_writer):
